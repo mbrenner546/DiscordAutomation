@@ -1,0 +1,48 @@
+import discum
+
+###Set Variables
+
+token = "OTA0MDcwOTI5MDA3NjU2OTgx.Yc3dmQ.wKmmXdzaOeFyE79q8RRb1WRNm1E"
+URL = 'https://discord.com/channels/817925104330735637/856621402386857994'
+
+
+###Useful Functions
+def getguildID(URL):
+    return URL.rsplit('/')[-2]
+def getchannelID(URL):
+    return URL.rsplit('/')[-1]
+
+def pullMembersList(URL, token):
+    guild_id = URL.rsplit('/')[-2]
+    channel_id = URL.rsplit('/')[-1]
+    bot = discum.Client(token=token)
+    def close_after_fetching(resp, guild_id):
+        if bot.gateway.finishedMemberFetching(guild_id):
+            lenmembersfetched = len(bot.gateway.session.guild(guild_id).members)
+            bot.gateway.removeCommand({'function': close_after_fetching, 'params': {'guild_id': guild_id}})
+            bot.gateway.close()
+
+    def get_members(guild_id, channel_id):
+        bot.gateway.fetchMembers(guild_id, channel_id, keep='all', wait=1)
+        bot.gateway.command({'function': close_after_fetching, 'params': {'guild_id': guild_id}})
+        bot.gateway.run()
+        bot.gateway.resetSession()
+        return bot.gateway.session.guild(guild_id).members
+
+    members = get_members(guild_id, channel_id)
+    membersList = []
+    print("eASDadasdasdasdasdasda")
+    for member in members:
+        print(member.)
+
+    filename = "Members_" + guild_id + "_" + channel_id
+
+    f = open("members.txt" ,"w")
+
+    for username in membersList:
+        f.write(username + '\n')
+    f.close()
+
+    print("Member List Pull Success")
+
+pullMembersList(URL, token)
