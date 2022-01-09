@@ -1,0 +1,19 @@
+###IMPORTS
+import selenium
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+import asyncio
+from selenium.webdriver.common.keys import Keys
+
+###Drive Discord Log in
+driver = webdriver.Chrome(executable_path= "C:\webdrivers\chromedriver.exe")
+
+driver.get("https://discord.com/channels/@me")
+###Input Username
+usernamexpath = '/html/body/div[1]/div[2]/div/div/div/div/form/div/div/div[1]/div[2]/div[1]/div/div[2]/input'
+passwordxpath = '/html/body/div[1]/div[2]/div/div/div/form/div/div/div[1]/div[2]/div[2]/div/input'
+driver.find_element(By.XPATH, usernamexpath).send_keys(username)
+driver.find_element(By.XPATH, usernamexpath).send_keys(Keys.TAB)
+passwordelement = driver.switch_to.active_element.send_keys(password + Keys.ENTER)
+
+### LOGIN
